@@ -1,0 +1,70 @@
+#include "interrupt.h"
+
+#define leftEnable 10 // EN1
+#define leftMotor3A 9 // PWM for MOTOR1
+#define leftMotor4A 8 // PWM for MOTOR1
+#define rightEnable 20 // EN2
+#define rightMotor1A 15 // PWM for MOTOR2
+#define rightMotor2A 14 // PWM for MOTOR2
+
+#define interr_pin 2 // interrupt pin
+
+void turnLeft();
+void turnRight();
+void stop();
+
+void setup(){
+  // Configure pins
+  
+  // set hbridge pins to OUTPUT
+  pinMode(leftEnable, OUTPUT); //EN1
+  pinMode(rightEnable, OUTPUT);
+  // left wheel
+  pinMode(leftMotor3A, OUTPUT);
+  pinMode(leftMotor4A, OUTPUT);
+  // right wheel
+  pinMode(rightMotor1A, OUTPUT);
+  pinMode(rightMotor2A, OUTPUT);
+  
+  Serial.begin(9600);
+  pinMode(interr_pin, INPUT);
+  attachInterrupt(interr_pin, gotTick, CHANGE); 
+}
+
+void loop(){
+  turnRight();
+//  delay(2000);
+//  stop();
+//  delay(2000);
+  int currentTicks = 0;
+  currentTicks = getCurrentTicks();
+  Serial.print("Current ticks are: ");
+  Serial.println(currentTicks);
+  delay(250);
+}
+
+
+void turnLeft(){
+  analogWrite(leftEnable, 255);
+  analogWrite(rightEnable, 255);
+  
+  digitalWrite(rightMotor1A, HIGH);
+  digitalWrite(rightMotor2A, LOW);
+  digitalWrite(leftMotor3A, HIGH);
+  digitalWrite(leftMotor4A, LOW);
+}
+
+void turnRight(){
+  analogWrite(rightEnable, 255);
+  analogWrite(leftEnable, 255);
+  
+  digitalWrite(rightMotor1A, LOW);
+  digitalWrite(rightMotor2A, HIGH);
+  digitalWrite(leftMotor3A, LOW);
+  digitalWrite(leftMotor4A, HIGH);
+}
+
+void stop(){
+  digitalWrite(leftEnable, LOW);
+  digitalWrite(rightEnable, LOW);
+}

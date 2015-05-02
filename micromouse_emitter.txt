@@ -1,0 +1,78 @@
+#define leftReceiver A3 
+#define leftEmitter 6
+#define rightReceiver A0
+#define rightEmitter 10
+
+#define frontLEmitter 5
+#define frontLReceiver A4
+#define frontREmitter 9
+#define frontRReceiver A1
+
+int frontR, frontL, left, right;
+
+void setup(){
+  // Input pins
+  pinMode(leftReceiver, INPUT);
+  pinMode(rightReceiver, INPUT);
+  pinMode(frontLReceiver, INPUT);
+  pinMode(frontRReceiver, INPUT);
+  // Output pins
+  pinMode(leftEmitter, OUTPUT);
+  pinMode(rightEmitter, OUTPUT);
+  pinMode(frontLEmitter, OUTPUT);
+  pinMode(frontREmitter, OUTPUT);
+
+  Serial.begin(9600);
+}
+
+void loop(){
+
+  digitalWrite(frontREmitter, HIGH);
+  delay(100);
+  frontR = analogRead(frontRReceiver);
+  delay(140);
+  digitalWrite(frontREmitter, LOW);
+
+  digitalWrite(frontLEmitter, HIGH);
+  delay(100);
+  frontL = analogRead(frontLReceiver);
+  delay(140);
+  digitalWrite(frontLEmitter, LOW);  
+  
+  digitalWrite(rightEmitter, HIGH);
+  delay(100);
+  right = analogRead(rightReceiver);
+  delay(140);
+  digitalWrite(rightEmitter, LOW);
+
+  digitalWrite(leftEmitter, HIGH);
+  delay(100);
+  left = analogRead(leftReceiver);
+  delay(140);
+  digitalWrite(leftEmitter, LOW);
+  
+//  if(frontR >= 68){
+//    if(frontL >= 40)
+//      Serial.println("Wall front");
+//  }
+  
+  if(right >= 80 && right <= 150){
+    if(left <= 52)
+      Serial.println("Slightly wall right");
+  }
+  if(right > 150)
+    Serial.println("Very close right wall");
+    
+ if(left >= 40 && left <= 65){
+   if(right <= 80)
+     Serial.println("Slightly wall left");
+ } 
+ if(left > 65)
+   Serial.println("Very close left wall");
+ //Theoretically, frontL*0.90 == frontR
+// if(frontL *0.90 - frontR >= 20)
+//   Serial.println("Turn left");
+// else if(frontR - frontL * 0.90 >= 30)
+ //  Serial.println("Turn right");
+ 
+}
