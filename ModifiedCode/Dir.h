@@ -1,0 +1,55 @@
+enum Dir {
+    NORTH = 0,
+    SOUTH,
+    EAST,
+    WEST,
+    INVALID
+};
+
+void Dir opposite(Dir d) {
+    switch (d) {
+        case NORTH:
+            return SOUTH;
+        case SOUTH:
+            return NORTH;
+        case EAST:
+            return WEST;
+        case WEST:
+            return EAST;
+        case INVALID:
+        default:
+            return INVALID;
+    }
+}
+
+void Dir clockwise(Dir d) {
+    switch (d) {
+        case NORTH:
+            return EAST;
+        case SOUTH:
+            return WEST;
+        case EAST:
+            return SOUTH;
+        case WEST:
+            return NORTH;
+        case INVALID:
+        default:
+            return INVALID;
+    }
+}
+
+void Dir counterClockwise(Dir d) {
+    switch (d) {
+        case NORTH:
+            return WEST;
+        case SOUTH:
+            return EAST;
+        case EAST:
+            return NORTH;
+        case WEST:
+            return SOUTH;
+        case INVALID:
+        default:
+            return INVALID;
+    }
+}
